@@ -22,14 +22,14 @@ namespace CSharp_Net_module1_6_1_lab
         public void AddingOne(object raw)
         {
             var number = (int)raw;
-            int CurrentManagedThreadID = Thread.CurrentThread.ManagedThreadId;
+            int managedThreadID = Thread.CurrentThread.ManagedThreadId;
             lock (_block)
             {
-                for(int i = 0; i < 100 && key != ConsoleKey.Q; ++i)
+                for(int i = 0; i < 2 && key != ConsoleKey.Q; ++i)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("Current managed thread id : " + CurrentManagedThreadID);
                     raw = i % number;
+                    Console.WriteLine("Current managed thread id : {0}\nResult of worked loop : {1}", managedThreadID, raw);
                     Thread.Sleep(5000);
                 }
             }
@@ -39,31 +39,41 @@ namespace CSharp_Net_module1_6_1_lab
 
         public void AddingCustomValue(object args) 
         {
+            int managedThreadID = Thread.CurrentThread.ManagedThreadId;
             //get ManagedThreadId
 
             //define
+            var arr = (int[])args;
             //var arr = (int[])args;
             //var number = arr[0];
+            var number = arr[0];
             //var step = arr[1];
+            var step = arr[1];
 
             //use for loop for counter % number calculation
             
             
-            // for (var counter = 0; counter < 100 * step && _key != ConsoleKey.W; counter += step)
-                {
-
+            for (var i = 0; i < 2 && key != ConsoleKey.W; i += step)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                var result = i % number;
+                Console.WriteLine("Current managed thread id : {0}\nResult of worked loop : {1}", managedThreadID, result);
+                Thread.Sleep(5000);
                     //use Console.ForegroundColor = ConsoleColor.Green for output
                     //simulate the long process with Thread.Sleep
-                }
+            }
 
         }
 
-        //implement Stop() method
+        public void Stop()
         {
+            int managedThreadId = Thread.CurrentThread.ManagedThreadId;
             //get ManagedThreadId
-
+            while(Console.ReadKey(true).Key != ConsoleKey.Q)
             //craete while loop to read key
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Managed thread ID : {0}", managedThreadId);
                 //use Console.ForegroundColor = ConsoleColor.Red for output
             }
         }
